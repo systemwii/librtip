@@ -49,28 +49,39 @@ extern "C" {
 //==============================================================================
 // Patchsets:
 //==============================================================================
-/*
-Wii:
-    * DI Readlimit
-    * ISFS Permissions
-    * ES SetUID
-    * ES SetIdentify
-    * Hash Check (aka Trucha)
-    * New Hash Check (aka New Trucha)
-    * SSL patches
 
-Sciifii:
-    * MEM2 Prot
-    * ES OpenTitleContent 1 & 2
-    * ES ReadContent Prot
-    * ES CloseContent
-    * ES TitleVersionCheck
-    * ES TitleDeleteCheck
+// options for "platforms" argument
+// to select multiple, join them with |
+// to select all, set the argument to ~0
+enum Patchsets {
+    PATCH_WII = 1<<0,       // base patchset used for Wii
+    PATCH_SCIIFII = 1<<1,   // extra patches for Sciifii
+    PATCH_VWII = 1<<2,      // extra patches for vWii
+};
 
-vWii:
-   * Kill Anti-SystemTitle-Install 1, 2, 3, 4 & 5
-*/
-
+// options for "enabled" argument (see above for usage notes)
+// note that PATCH_HASH_CHECK and PATCH_NEW_HASH_CHECK have the same effect 
+// but apply to different IOSes 
+enum Patches {
+    // Wii
+    PATCH_DI_READLIMIT = 1<<0,
+    PATCH_ISFS_PERMISSIONS = 1<<1,
+    PATCH_ES_SETUID = 1<<2,
+    PATCH_ES_IDENTIFY = 1<<3,
+    PATCH_HASH_CHECK = 1<<4,        // aka FakeSign/Trucha
+    PATCH_NEW_HASH_CHECK = 1<<5,    // aka New FakeSign/Trucha
+    PATCH_ISFS_SETATTR = 1<<6,
+    PATCH_SSL = 1<<7,                  
+    // Sciifii
+    PATCH_MEM2_PROT = 1<<8,
+    PATCH_ES_OPENTITLECONTENT = 1<<9,
+    PATCH_ES_READCONTENT_PROT = 1<<10,
+    PATCH_ES_CLOSECONTENT = 1<<11,
+    PATCH_ES_TITLEVERSIONCHECK = 1<<12,
+    PATCH_ES_TITLEDELETECHECK = 1<<13,
+    // VWii
+    PATCH_KILL_ANTISYSTITLEINSTALLV3 = 1<<14,
+};
 
 //==============================================================================
 // Functions:
@@ -90,43 +101,41 @@ vWii:
  *          }
  *      }
  * @return Signed 32bit integer representing code
- *      > 0             : Success   - return equals to number of applied patches
+ *      > 0             : Success   - return equals number of applied patches
  *      ERROR_AHBPROT   : Error     - No HW_AHBPROT access
  */
 s32 IosPatch_AHBPROT(bool verbose);
 
 
 /**
- * This function applies patches on current IOS
+ * This function applies patches onto currently loaded IOS
  * @see Patchsets
- * @param wii Flag determing whether or not to apply Wii patches.
- * @param sciifii Flag determing whether or not to apply extra Sciifii patches.
- * @param vwii Flag determing whether or not to apply extra vWii patches.
- * @param verbose Flag determing whether or not to print messages on-screen.
- * @example if(AHBPROT_DISABLED) IosPatch_FULL(true, false, false, false);
+ * @param platforms Bitmask enabling platform patchsets.
+ * @param enabled Bitmask enabling individual patches; ~0 enables all.
+ * @param verbose Flag determing whether or not to print messages on screen.
+ * @example if(AHBPROT_DISABLED) IosPatch_FULL(PATCH_WII | PATCH_VWII, ~0, false);
  * @return Signed 32bit integer representing code
- *      > 0             : Success   - return equals to number of applied patches
+ *      > 0             : Success   - return equals number of applied patches
  *      ERROR_AHBPROT   : Error     - No HW_AHBPROT access
  *      ERROR_PATCH     : Error     - Patching HW_AHBPROT access failed
  */
-s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose);
+s32 IosPatch_RUNTIME(u32 platforms, u32 enabled, bool verbose);
 
 
 /**
  * This function combines IosPatch_AHBPROT + IOS_ReloadIOS + IosPatch_RUNTIME
  * @see Patchsets
- * @param wii Flag determing whether or not to apply Wii patches.
- * @param sciifii Flag determing whether or not to apply extra Sciifii patches.
- * @param vwii Flag determing whether or not to apply extra vWii patches.
- * @param verbose Flag determing whether or not to print messages on-screen.
+ * @param platforms Bitmask enabling platform patchsets.
+ * @param enabled Bitmask enabling individual patches; ~0 enables all.
+ * @param verbose Flag determing whether or not to print messages on screen.
  * @param IOS Which IOS to reload into.
- * @example if(AHBPROT_DISABLED) IosPatch_FULL(true, false, false, false, 58);
+ * @example if(AHBPROT_DISABLED) IosPatch_FULL(PATCH_WII, ~0, false, 58);
  * @return Signed 32bit integer representing code
  *      > 0             : Success   - return equals to number of applied patches
  *      ERROR_AHBPROT   : Error     - No HW_AHBPROT access
  *      ERROR_PATCH     : Error     - Patching HW_AHBPROT access failed
  */
-s32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS);
+s32 IosPatch_FULL(u32 platforms, u32 enabled, bool verbose, int IOS);
 
 //==============================================================================
 // C++ footer
