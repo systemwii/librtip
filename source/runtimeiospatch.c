@@ -108,7 +108,6 @@ static u8 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *p
 	u8 found = 0;
 	if(verbose)
 	{
-		TextColor(7,1);
 		printf("\t\t    Patching %-30s", name);
 	}
 	u8 *location = NULL;
@@ -127,16 +126,9 @@ static u8 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *p
 		ptr_start++;
 	}
 	if(verbose){
-		if (found)
-		{
-			TextColor(2, 1);
-			printf("\t\t patched\n");
-		}
-		else
-		{
-			TextColor(1, 1);
-			printf("\t\t not patched\n");
-		}
+		TextColor(found ? 2 : 1, 1);
+		printf("\t\t%d patched\n", found);
+		TextColor(7,1);
 	}
 	return found;
 }
@@ -158,13 +150,14 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 
 	if (AHBPROT_DISABLED) {
 		disable_memory_protection();
-		if(verbose) printf("\t\t\n\n\n\n\n");
+		if(verbose) printf("\t\t\n");
 		if(wii)
 		{
 			if(verbose)
 			{
 				TextColor(6, 1);
 				printf("\t>> Applying standard Wii patches:\n");
+				TextColor(7, 1);
 			}
 			count += apply_patch("di_readlimit", di_readlimit_old, sizeof(di_readlimit_old), di_readlimit_patch, sizeof(di_readlimit_patch), 12, verbose);
 			count += apply_patch("isfs_permissions", isfs_permissions_old, sizeof(isfs_permissions_old), isfs_permissions_patch, sizeof(isfs_permissions_patch), 0, verbose);
@@ -185,6 +178,7 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 			{
 				TextColor(6, 1);
 				printf("\t>> Applying Sciifii patches:\n");
+				TextColor(7, 1);
 			}
 			count += apply_patch("MEM2_prot", MEM2_prot_old, sizeof(MEM2_prot_old), MEM2_prot_patch, sizeof(MEM2_prot_patch), 0, verbose);
 			count += apply_patch("ES_OpenTitleContent1", ES_OpenTitleContent1_old, sizeof(ES_OpenTitleContent1_old), ES_OpenTitleContent1_patch, sizeof(ES_OpenTitleContent1_patch), 0, verbose);
@@ -200,6 +194,7 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 			{
 				TextColor(6, 1);
 				printf("\t>> Applying vWii patches:\n");
+				TextColor(7, 1);
 			}
 			count += apply_patch("Kill_AntiSysTitleInstallv3_pt1", Kill_AntiSysTitleInstallv3_pt1_old, sizeof(Kill_AntiSysTitleInstallv3_pt1_old), Kill_AntiSysTitleInstallv3_pt1_patch, sizeof(Kill_AntiSysTitleInstallv3_pt1_patch), 0, verbose);
 			count += apply_patch("Kill_AntiSysTitleInstallv3_pt2", Kill_AntiSysTitleInstallv3_pt2_old, sizeof(Kill_AntiSysTitleInstallv3_pt2_old), Kill_AntiSysTitleInstallv3_pt2_patch, sizeof(Kill_AntiSysTitleInstallv3_pt2_patch), 0, verbose);
