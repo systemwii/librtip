@@ -1,3 +1,13 @@
+--- fork produced by @shoutplenty ---
+
+s2.0: (all changes by @shoutplenty)
+* new api: patches can now be selected individually 
+* verbose mode: show application counts per-patch
+* verbose mode: fixed colour leakage
+
+--- original maintained by @Nanolx ---
+repo: https://gitlab.com/Nanolx/homebrewfilter
+
 1.5.4:
 * fixed building with latest devkitPPC + libogc
 * fixed warnings

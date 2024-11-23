@@ -1,0 +1,5 @@
+# for devkitpro's default (in-tree) build folder settings
+build
+*.a
+*.dol
+*.elf

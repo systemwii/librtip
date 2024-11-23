@@ -1,0 +1,134 @@
+>>>>>>>> libruntimeiospatch vs2.0: <<<<<<<<
+
+===================================
+=== LIB_RUNTIMEIOSPATCH_VERSION ===
+===================================
+
+Version information for Libruntimeiospatch.
+
+========================
+=== AHBPROT_DISABLED ===
+========================
+
+Returns true when HW_AHBPROT access can be applied
+
+===================== ===================
+=== ERROR_AHBPROT === === ERROR_PATCH ===
+===================== ===================
+
+Use those to catch occuring errors
+
+******
+if (IosPatch_AHBPROT(false) == ERROR_AHBPROT)
+	printf("AHBPROT is still enabled!");
+
+if (IosPatch_RUNTIME(~0, ~0, false) == ERROR_PATCH)
+	printf("Patching IOS failed!");
+******
+
+=================
+=== Patchsets ===
+=================
+
+Options for "platforms" argument. To to select multiple,
+join them with "|". To select all, set the argument to "~0".
+
+PATCH_WII       base patchset used for Wii
+PATCH_SCIIFII   extra patches for Sciifii
+PATCH_VWII      extra patches for vWii
+
+===============
+=== Patches ===
+===============
+
+Options for "enabled" argument (see above for usage notes).
+Note that PATCH_HASH_CHECK and PATCH_NEW_HASH_CHECK have
+the same effect but apply to different IOSes.
+
+== Wii ==
+PATCH_DI_READLIMIT
+PATCH_ISFS_PERMISSIONS
+PATCH_ES_SETUID
+PATCH_ES_IDENTIFY
+PATCH_HASH_CHECK            aka FakeSign/Trucha
+PATCH_NEW_HASH_CHECK        aka New FakeSign/Trucha
+PATCH_ISFS_SETATTR
+PATCH_SSL
+
+== Sciifii ==
+PATCH_MEM2_PROT
+PATCH_ES_OPENTITLECONTENT
+PATCH_ES_READCONTENT_PROT
+PATCH_ES_CLOSECONTENT
+PATCH_ES_TITLEVERSIONCHECK
+PATCH_ES_TITLEDELETECHECK
+
+== VWii ==
+PATCH_KILL_ANTISYSTITLEINSTALLV3
+
+========================
+=== IosPatch_AHBPROT ===
+========================
+
+This function can be used to keep HW_AHBPROT access when going
+to reload IOS
+
+>> Flags: [bool]verbose (whether to print messages on-screen)
+
+>> Return: [s32] (success: number of applied patches or error:)
+           ERROR_AHBPROT   : No HW_AHBPROT access
+
+******
+    if(AHBPROT_DISABLED) {
+        s32 ret;
+        ret = IosPatch_AHBPROT(false);
+        if (ret) {
+            IOS_ReloadIOS(36);
+        } else {
+            printf("IosPatch_AHBPROT failed.");
+        }
+    }
+******
+
+========================
+=== IosPatch_RUNTIME ===
+========================
+
+This function applies patches onto currently loaded IOS
+
+>> Flags: [u32]platforms (bitmask enabling platform patchsets; 
+                          see Patchsets).
+          [u32]enabled (bitmask enabling individual patches;
+                          ~0 enables all; see Patches).
+          [bool]verbose (whether to print messages on screen).
+
+>> Return: [s32] (success: number of applied patches or error:)
+           ERROR_AHBPROT   : No HW_AHBPROT access
+           ERROR_PATCH     : Patching HW_AHBPROT access failed
+
+******
+if(AHBPROT_DISABLED)
+    IosPatch_FULL(PATCH_WII | PATCH_VWII, ~0, false);
+******
+
+=====================
+=== IosPatch_FULL ===
+=====================
+
+Combines IosPatch_AHBPROT + IOS_ReloadIOS + IosPatch_RUNTIME
+
+>> Flags: [u32]platforms (bitmask enabling platform patchsets; 
+                          see Patchsets).
+          [u32]enabled (bitmask enabling individual patches;
+                          ~0 enables all; see Patches).
+          [bool]verbose (whether to print messages on screen).
+          [int]IOS (Which IOS to reload into.)
+
+>> Return: [s32] (success: number of applied patches or error:)
+           ERROR_AHBPROT   : No HW_AHBPROT access
+           ERROR_PATCH     : Patching HW_AHBPROT access failed
+
+******
+if(AHBPROT_DISABLED)
+    IosPatch_FULL(PATCH_WII, ~0, false, 58);
+******

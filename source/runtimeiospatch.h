@@ -20,7 +20,7 @@
 /**
  * Version information for Libruntimeiospatch.
  */
-#define LIB_RUNTIMEIOSPATCH_VERSION "1.5.4"
+#define LIB_RUNTIMEIOSPATCH_VERSION "s2.0"
 
 //==============================================================================
 // HW_RVL header
@@ -89,7 +89,7 @@ enum Patches {
 
 /**
  * This function can be used to keep HW_AHBPROT access when going to reload IOS
- * @param verbose Flag determing whether or not to print messages on-screen
+ * @param verbose Flag determining whether or not to print messages on-screen
  * @example 
  *      if(AHBPROT_DISABLED) {
  *          s32 ret;
@@ -112,7 +112,7 @@ s32 IosPatch_AHBPROT(bool verbose);
  * @see Patchsets
  * @param platforms Bitmask enabling platform patchsets.
  * @param enabled Bitmask enabling individual patches; ~0 enables all.
- * @param verbose Flag determing whether or not to print messages on screen.
+ * @param verbose Flag determining whether or not to print messages on screen.
  * @example if(AHBPROT_DISABLED) IosPatch_FULL(PATCH_WII | PATCH_VWII, ~0, false);
  * @return Signed 32bit integer representing code
  *      > 0             : Success   - return equals number of applied patches
@@ -127,7 +127,7 @@ s32 IosPatch_RUNTIME(u32 platforms, u32 enabled, bool verbose);
  * @see Patchsets
  * @param platforms Bitmask enabling platform patchsets.
  * @param enabled Bitmask enabling individual patches; ~0 enables all.
- * @param verbose Flag determing whether or not to print messages on screen.
+ * @param verbose Flag determining whether or not to print messages on screen.
  * @param IOS Which IOS to reload into.
  * @example if(AHBPROT_DISABLED) IosPatch_FULL(PATCH_WII, ~0, false, 58);
  * @return Signed 32bit integer representing code
