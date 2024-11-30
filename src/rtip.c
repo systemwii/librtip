@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "patches.h"
-#include "runtimeiospatch.h"
+#include "rtip.h"
 
 #define MEM_REG_BASE 0xd8b4000
 #define MEM_PROT (MEM_REG_BASE + 0x20a)

@@ -1,5 +1,8 @@
 --- fork produced by @shoutplenty ---
 
+s2.1: (all changes by @shoutplenty)
+* switched Make setup: to systemwii/make
+
 s2.0: (all changes by @shoutplenty)
 * new api: patches can now be selected individually 
 * verbose mode: show application counts per-patch
