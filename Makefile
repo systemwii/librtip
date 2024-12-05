@@ -12,16 +12,16 @@ SRCS		 =	src
 SRCEXTS		 =	.c
 BINS		 =  
 BINEXTS		 =  
-LIBS		 =	-logc
+LIBS		 =	
 LIBDIRSBNDLE =	
 LIBDIRSLOOSE =	
 INCLUDES	 =	
 
 # --- flags ---
-CFLAGS		 =	-save-temps -g -O2 -Wall -Wno-unused-variable $(MACHDEP)
+CFLAGS		 =	-save-temps -g -O2 -Wall -Wno-unused-variable
 CXXFLAGS	 =	$(CFLAGS)
 ASFLAGS		 =	-D_LANGUAGE_ASSEMBLY
-LDFLAGS		 =	-g $(MACHDEP) -Wl,-Map,$(CACHE)/$(notdir $@).map
+LDFLAGS		 =	-g -Wl,-Map,$(CACHE)/$(notdir $@).map
 ARFLAGS		 =	rcs
 
 # --- runs the templates ---

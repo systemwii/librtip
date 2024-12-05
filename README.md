@@ -30,7 +30,7 @@ make clean
 
 Available versions:
 - `master`: the latest commit on this repository's `master` branch
-- `vs2.1`: the latest version as produced by [@shoutplenty](https://github.com/pyorot) for [@systemwii](https://github.com/systemwii)
+- `vs2.1.1`: the latest version as produced by [@shoutplenty](https://github.com/pyorot) for [@systemwii](https://github.com/systemwii)
 - `v1.5.4`: the latest release of the original as maintained by [@Nanolx](https://gitlab.com/Nanolx/homebrewfilter)
 - you can use any other tag or commit by its ID
 

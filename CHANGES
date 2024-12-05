@@ -1,7 +1,8 @@
 --- fork produced by @shoutplenty ---
 
-s2.1: (all changes by @shoutplenty)
+s2.1.*: (all changes by @shoutplenty)
 * switched Make setup: to systemwii/make
+(point versions reflect Make setup compatibility changes)
 
 s2.0: (all changes by @shoutplenty)
 * new api: patches can now be selected individually 
