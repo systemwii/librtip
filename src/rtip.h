@@ -14,8 +14,8 @@
 // Copyright (C) 2014		megazig
 // Copyright (C) 2015		FIX94
 
-#ifndef __RUNTIMEIOSPATCH_H__
-#define __RUNTIMEIOSPATCH_H__
+#pragma once
+#pragma GCC visibility push(default)
 
 /**
  * Version information for Libruntimeiospatch.
@@ -149,4 +149,4 @@ s32 IosPatch_FULL(u32 platforms, u32 enabled, bool verbose, int IOS);
 //==============================================================================
 #endif /* defined(HW_RVL) */
 
-#endif
+#pragma GCC visibility pop
